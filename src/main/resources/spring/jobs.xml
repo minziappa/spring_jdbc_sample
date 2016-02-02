@@ -9,29 +9,33 @@
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<jdbc:embedded-database id="dataSource" type="H2">
+	<jdbc:embedded-database id="h2ds" type="H2">
 		<jdbc:script location="org/springframework/batch/core/schema-drop-h2.sql" />
 		<jdbc:script location="org/springframework/batch/core/schema-h2.sql" />
 	</jdbc:embedded-database>
 
- 	 <!-- stored job-meta in database -->
+ 	<!-- stored job-meta in database -->
 	<bean id="jobRepository"
 		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="h2ds" />
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="databaseType" value="h2" />
 	</bean>
 
+	<!-- Transaction Manager for Job repository -->
 	<bean id="transactionManager"
 		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
 
+	<!-- Launch jobs -->
 	<bean id="jobLauncher"
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>
 
+	<!-- Execute the method -->
 	<bean id="customTaskletStep" class="io.sample.batch.job.CustomTaskletStep" />
 
+	<!-- Steps in jobs -->
 	<batch:job id="helloWorldJob">
 		<batch:step id="step1">
 			<batch:tasklet ref="customTaskletStep" />

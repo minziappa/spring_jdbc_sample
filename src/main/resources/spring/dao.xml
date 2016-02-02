@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="abstractDao" class="io.sample.batch.dao.AbstractDao">
+	<bean id="sampleDao" class="io.sample.batch.dao.SampleDao">
 		<property name="namedParameterJdbcTemplate" ref="namedParameterJdbcTemplate" />
 	</bean>
 

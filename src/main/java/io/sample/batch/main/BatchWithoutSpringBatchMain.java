@@ -2,18 +2,14 @@ package io.sample.batch.main;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import io.sample.batch.dao.AbstractDao;
+import io.sample.batch.dao.SampleDao;
 
-public class BatchMain2 {
+public class BatchWithoutSpringBatchMain {
 
-	final static Logger logger = LoggerFactory.getLogger(BatchMain2.class);
+	final static Logger logger = LoggerFactory.getLogger(BatchWithoutSpringBatchMain.class);
 
 	/**
 	 * @param args
@@ -22,7 +18,7 @@ public class BatchMain2 {
 	public static void main(String[] args) throws Exception {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("springConfig.xml");
-		AbstractDao abstractDao = (AbstractDao) context.getBean("abstractDao");
+		SampleDao abstractDao = (SampleDao) context.getBean("abstractDao");
 
 		abstractDao.getSampleData();
 		System.out.println("Done");

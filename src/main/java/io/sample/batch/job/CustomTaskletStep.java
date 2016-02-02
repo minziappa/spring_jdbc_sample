@@ -6,13 +6,12 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import io.sample.batch.dao.AbstractDao;
-import io.sample.batch.service.SampleService;
+import io.sample.batch.dao.SampleDao;
 
 public class CustomTaskletStep implements Tasklet {
 
 	@Autowired
-	private AbstractDao abstractDao;
+	private SampleDao abstractDao;
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution, 
