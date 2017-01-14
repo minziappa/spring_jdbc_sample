@@ -34,11 +34,39 @@
 
 	<!-- Execute the method -->
 	<bean id="customTaskletStep" class="io.sample.batch.job.CustomTaskletStep" />
+	<bean id="customTaskletListener" class="io.sample.batch.job.listener.CustomTaskletListener" />
+	<bean id="mailerTaskletStep" class="io.sample.batch.job.MailerTaskletStep" />
+	<bean id="mailerTaskletListener" class="io.sample.batch.job.listener.MailerTaskletListener" />
+	<bean id="errorTaskletStep" class="io.sample.batch.job.ErrorTaskletStep" />
+	<bean id="errorTaskletListener" class="io.sample.batch.job.listener.ErrorTaskletListener" />
 
 	<!-- Steps in jobs -->
 	<batch:job id="helloWorldJob">
 		<batch:step id="step1">
-			<batch:tasklet ref="customTaskletStep" />
+			<batch:tasklet ref="customTaskletStep">
+			<batch:listeners>
+				<batch:listener ref="customTaskletListener" />
+			</batch:listeners>
+			</batch:tasklet>
+			<batch:next on="FAILED" to="step2"/>
+			<batch:next on="*" to="step3"/>
+		</batch:step>
+		<batch:step id="step2">
+			<batch:tasklet ref="mailerTaskletStep">
+			<batch:listeners>
+				<batch:listener ref="mailerTaskletListener" />
+			</batch:listeners>
+			</batch:tasklet>
+			<batch:next on="FAILED" to="step3"/>
+			<batch:end on="COMPLETED"/>
+		</batch:step>
+		<batch:step id="step3">
+			<batch:tasklet ref="errorTaskletStep">
+			<batch:listeners>
+				<batch:listener ref="errorTaskletListener" />
+			</batch:listeners>
+			</batch:tasklet>
+			<batch:end on="COMPLETED"/>
 		</batch:step>
 	</batch:job>
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import io.sample.batch.dao.SampleDao;
 
 // Step or Tasklet or ???
-public class CustomTaskletStep implements Tasklet {
+public class MailerTaskletStep implements Tasklet {
 
 	@Autowired
 	private SampleDao sampleDao;
